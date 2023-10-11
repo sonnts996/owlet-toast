@@ -1,16 +1,30 @@
+import 'package:example/app_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_manager/overlay_manager.dart';
+import 'package:owlet_toast/owlet_toast.dart';
 
 void main() {
-  runApp(const MyApp());
+  final navKey = GlobalKey<NavigatorState>();
+  final appToast = AppToast(overlayManager: GlobalOverlayManager(navigatorKey: navKey));
+  runApp(MyApp(
+    appToast: appToast,
+    navKey: navKey,
+  ));
 }
 
+
+
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.navKey, required this.appToast});
+
+  final GlobalKey<NavigatorState> navKey;
+  final AppToast appToast;
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navKey,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -28,16 +42,16 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Owlet Toast Demo', appToast: appToast),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, required this.appToast});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -49,24 +63,14 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final AppToast appToast;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,21 +109,46 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            ElevatedButton(
+                onPressed: () {
+                  widget.appToast.showInformation('Hello World');
+                },
+                child: const Text('Show Information Toast')),
+            const SizedBox(height: 8),
+            ElevatedButton(
+                onPressed: () {
+                  widget.appToast.showError('This is error message');
+                },
+                child: const Text('Show Error Toast')),
+            const SizedBox(height: 8),
+            ElevatedButton(
+                onPressed: () {
+                  widget.appToast.showWaring('Position of toast is relative');
+                },
+                child: const Text('Show Warning Toast')),
+            const SizedBox(height: 8),
+            ElevatedButton(
+                onPressed: () {
+                  widget.appToast.showSuccess('Celebration!');
+                },
+                child: const Text('Show Success Toast')),
+            const SizedBox(height: 8),
+            ElevatedButton(
+                onPressed: () {
+                  widget.appToast.showLottieSuccess('The icon appear after the toast showing!');
+                },
+                child: const Text('Lottie Success Toast')),
+            const SizedBox(height: 8),
+            ElevatedButton(
+                onPressed: () {
+                  widget.appToast.showAnimated('Celebration!');
+                },
+                child: const Text('Show Animated Toast')),
+            const SizedBox(height: 8),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

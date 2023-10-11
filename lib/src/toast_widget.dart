@@ -27,7 +27,7 @@ class ToastWidget extends StatefulWidget {
   /// The [transitionDuration] is the duration the toast appears (or is dismissed) in animation;
   final Duration transitionDuration;
 
-  ///  The [holdDuration] lets you know how long this toast showing on screen. (exclude animations)
+  ///  The [holdDuration] lets you know how long this toast showing on screen.
   final Duration holdDuration;
 
   /// The toast's ui widget.

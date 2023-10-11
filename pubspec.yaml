@@ -1,7 +1,7 @@
 name: owlet_toast
 description: Owlet Toast is the toast interface provider for the delegate to build your custom toast base on OverlayManager.
 version: 0.0.1
-homepage:
+repository: https://github.com/sonnts996/owlet-toast
 
 environment:
   sdk: '>=3.1.0 <4.0.0'

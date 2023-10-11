@@ -13,10 +13,10 @@ import 'owlet_toast.dart';
 /// and transform from the bottom in case [Alignment.bottomCenter]
 /// - Otherwise, if the direction is started on the left, the transitions will be transformed from the left edge. And from the right if the direction is started on the right.
 /// - In the other direction, the toast stands in its original position.
-class LinearTransitionDelegate with ToastTransitionDelegate {
-  /// The [LinearTransitionDelegate]'s constructor.
+class TranslateTransitionDelegate with ToastTransitionDelegate {
+  /// The [TranslateTransitionDelegate]'s constructor.
   /// In default, the transition will start at 200 from the original position by the [direction].
-  const LinearTransitionDelegate({required this.direction, this.destination = 0, this.start = 200});
+  const TranslateTransitionDelegate({required this.direction, this.destination = 0, this.start = 200});
 
   /// The transform's direction
   final Alignment direction;
@@ -42,9 +42,9 @@ class LinearTransitionDelegate with ToastTransitionDelegate {
 }
 
 /// Make the toast fade when appears and dismiss.
-class AppearanceTransitionDelegate with ToastTransitionDelegate {
-  /// The [AppearanceTransitionDelegate]'s constructor
-  const AppearanceTransitionDelegate();
+class FadeTransitionDelegate with ToastTransitionDelegate {
+  /// The [FadeTransitionDelegate]'s constructor
+  const FadeTransitionDelegate();
 
   @override
   Offset transition(AnimationStatus animationStatus, double animationValue) => const Offset(0, 0);
