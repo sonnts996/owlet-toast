@@ -14,17 +14,25 @@ enum ToastType {
   information,
   warning,
   success,
-  lottie_controler,
-  animated_toast;
+  lottieController,
+  animatedToast;
 }
 
-class AppToast extends OwletToast<ToastType, String> {
-  const AppToast({required super.overlayManager});
+class AppToast {
+  final OwletToast owletToast;
+
+  AppToast({required this.owletToast});
 
   Future<R?> showInformation<R extends Object>(String message) {
-    return show(
-        type: ToastType.information,
-        data: message,
+    return owletToast.show(
+        builder: (context, entry, child) => Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 3, spreadRadius: 4)]),
+              child: const Text("This is toast's message"),
+            ),
         alignment: const Alignment(0, -0.7),
         transitionDelegate: const TranslateTransitionDelegate(direction: Alignment.topCenter),
         transitionDuration: const Duration(milliseconds: 500),
@@ -32,19 +40,25 @@ class AppToast extends OwletToast<ToastType, String> {
   }
 
   Future<R?> showError<R extends Object>(String message) {
-    return show(
-        type: ToastType.error,
-        data: message,
+    return owletToast.show(
+        builder: (context, entry, child) => build(
+              context,
+              ToastType.error,
+              message,
+            ),
         alignment: const Alignment(0, -0.7),
-        transitionDelegate: const ShakeTransitionDelegate(shakeCurve: Curves.elasticInOut),
+        transitionDelegate: const ShakeTransitionDelegate(curve: Curves.elasticInOut),
         transitionDuration: const Duration(milliseconds: 500),
         holdDuration: const Duration(seconds: 1));
   }
 
   Future<R?> showWaring<R extends Object>(String message) {
-    return show(
-        type: ToastType.warning,
-        data: message,
+    return owletToast.show(
+        builder: (context, entry, child) => build(
+              context,
+              ToastType.warning,
+              message,
+            ),
         alignment: const Alignment(0, 0.8),
         transitionDelegate: const FadeTransitionDelegate(),
         transitionDuration: const Duration(milliseconds: 500),
@@ -52,9 +66,12 @@ class AppToast extends OwletToast<ToastType, String> {
   }
 
   Future<R?> showSuccess<R extends Object>(String message) {
-    return show(
-        type: ToastType.success,
-        data: message,
+    return owletToast.show(
+        builder: (context, entry, child) => build(
+              context,
+              ToastType.success,
+              message,
+            ),
         alignment: const Alignment(0, -0.7),
         transitionDelegate: const FadeTransitionDelegate(),
         transitionDuration: const Duration(milliseconds: 200),
@@ -62,9 +79,12 @@ class AppToast extends OwletToast<ToastType, String> {
   }
 
   Future<R?> showLottieSuccess<R extends Object>(String message) {
-    return show(
-        type: ToastType.lottie_controler,
-        data: message,
+    return owletToast.show(
+        builder: (context, entry, child) => build(
+              context,
+              ToastType.lottieController,
+              message,
+            ),
         alignment: const Alignment(0, -0.7),
         transitionDelegate: const FadeTransitionDelegate(),
         transitionDuration: const Duration(seconds: 1),
@@ -72,25 +92,27 @@ class AppToast extends OwletToast<ToastType, String> {
   }
 
   Future<R?> showAnimated<R extends Object>(String message) {
-    return show(
-        type: ToastType.animated_toast,
-        data: message,
+    return owletToast.show(
+        builder: (context, entry, child) => build(
+              context,
+              ToastType.animatedToast,
+              message,
+            ),
         alignment: const Alignment(0, -0.7),
         transitionDelegate: const FadeTransitionDelegate(),
         transitionDuration: const Duration(milliseconds: 200),
         holdDuration: const Duration(seconds: 2));
   }
 
-  @override
-  Widget buildToast(BuildContext context, ToastEntry<ToastType, String> entry) {
-    return switch (entry.type) {
+  Widget build(BuildContext context, ToastType type, String message) {
+    return switch (type) {
       ToastType.error => Toasty(
           icon: const Icon(
             Icons.error_outline_rounded,
             color: Colors.white,
           ),
           color: Colors.red,
-          message: entry.data,
+          message: message,
         ),
       ToastType.information => Toasty(
           icon: const Icon(
@@ -98,7 +120,7 @@ class AppToast extends OwletToast<ToastType, String> {
             color: Colors.blue,
           ),
           color: Colors.white,
-          message: entry.data,
+          message: message,
         ),
       ToastType.warning => Toasty(
           icon: const Icon(
@@ -106,7 +128,7 @@ class AppToast extends OwletToast<ToastType, String> {
             color: Colors.white,
           ),
           color: Colors.orange,
-          message: entry.data),
+          message: message),
       ToastType.success => Toasty(
           icon: Lottie.asset(
             'assets/success_animations.json',
@@ -115,12 +137,12 @@ class AppToast extends OwletToast<ToastType, String> {
             repeat: false,
           ),
           color: Colors.white,
-          message: entry.data),
-      ToastType.lottie_controler => LottieSuccessToast(
+          message: message),
+      ToastType.lottieController => LottieSuccessToast(
           delay: const Duration(milliseconds: 1),
-          message: entry.data,
+          message: message,
         ),
-      ToastType.animated_toast => AnimatedToast(message: entry.data),
+      ToastType.animatedToast => AnimatedToast(message: message),
     };
   }
 }

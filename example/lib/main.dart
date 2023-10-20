@@ -1,11 +1,10 @@
 import 'package:example/app_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:overlay_manager/overlay_manager.dart';
 import 'package:owlet_toast/owlet_toast.dart';
 
 void main() {
   final navKey = GlobalKey<NavigatorState>();
-  final appToast = AppToast(overlayManager: GlobalOverlayManager(navigatorKey: navKey));
+  final appToast = AppToast(owletToast: OwletToast.global(navKey));
   runApp(MyApp(
     appToast: appToast,
     navKey: navKey,

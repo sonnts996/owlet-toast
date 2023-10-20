@@ -10,12 +10,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  overlay_manager: ^0.0.1
+  overlay_manager: ^0.0.2
+  objectx: ^1.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   owlet_lints: ^3.0.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
