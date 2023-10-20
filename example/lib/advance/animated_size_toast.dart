@@ -56,10 +56,10 @@ class _AnimatedToastState extends State<AnimatedToast> with TickerProviderStateM
             ),
             if (shouldShownText)
               Padding(
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Text(
                   widget.message,
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
               ),
           ],

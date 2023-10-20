@@ -6,123 +6,55 @@ You can customize your toast's UI and Owlet Toast will make it show on the scree
 You also customize your animation effect.
 
 ## Import
-The ``overlay_manager`` is needed when using ``owlet_toast``.
 
 ```yaml
 dependencies:
-      overlay_manager: ^0.0.1
-      owlet_toast: ^0.0.1
+   owlet_toast: ^0.0.1
 ```
 
 # Usage
 
-## Customize your toast
-
-Define your toast's type to list out your toast's variant.
-Then create the ``AppToast`` extends of ``OwletToast`` with 2 generic type arguments:
-Your ``ToastType``, and your message data type.
+Create a global ``OwletToast`` with ``GlobalKey<NavigatorState>()``.
+You also inject it on injection or use a singleton.
 
 ```dart
-enum ToastType {
-  error,
-  information,
-  warning,
-  success;
-}
-
-class AppToast extends OwletToast<ToastType, String>{
-  const AppToast({required super.overlayManager});
-  
-  @override
-  Widget buildToast(BuildContext context, ToastEntry<ToastType, String> entry) {
-    // TODO: implement buildToast
-    throw UnimplementedError();
-  }
-}
+final navKey = GlobalKey<NavigatorState>();
+final appToast = OwletToast.global(navKey);
 ```
 
-
-Override the ``buildToast`` method, which  return your toast UI widget. See more in [this example](https://github.com/sonnts996/owlet-toast/blob/main/example/lib/app_toast.dart).
+or a context ``OwletToast``:
 
 ```dart
-class AppToast extends OwletToast<ToastType, String> {
-  
-  @override
-  Widget buildToast(BuildContext context, ToastEntry<ToastType, String> entry) {
-    return switch (entry.type) {
-      ToastType.error =>
-          Toasty(
-            icon: const Icon(
-              Icons.error_outline_rounded,
-              color: Colors.white,
-            ),
-            color: Colors.red,
-            message: entry.data,
-          ),
-      ToastType.information =>
-          Toasty(
-            icon: const Icon(
-              Icons.info_outlined,
-              color: Colors.blue,
-            ),
-            color: Colors.white,
-            message: entry.data,
-          ),
-      ToastType.warning =>
-          Toasty(
-              icon: const Icon(
-                Icons.warning_amber_outlined,
-                color: Colors.white,
-              ),
-              color: Colors.orange,
-              message: entry.data),
-      ToastType.success =>
-          Toasty(
-              icon: Lottie.asset(
-                'assets/success_animations.json',
-                height: 32,
-                width: 32,
-                repeat: false,
-              ),
-              color: Colors.white,
-              message: entry.data),
-    };
-  }
-}
+final appToast =  OwletToast.of(context);
 ```
+
 
 ## Use it
 
-In the ``main.dart`` or any where you want to define your toast (such as an injections).
-
-```dart
-final appToast = AppToast(overlayManager: GlobalOverlayManager(navigatorKey: navKey)); 
-```
-
 To show your toast, let's call ``appToast.show()``.
 
-Another way, let's define this method in the ``AppToast`` class:
-
 ```dart
-
-class AppToast extends OwletToast<ToastType, String> {
-  
-  Future<R?> showInformation<R extends Object>(String message) {
-    return show(
-        type: ToastType.information,
-        data: message,
-        alignment: const Alignment(0, -0.7),
-        transitionDelegate: const TranslateTransitionDelegate(direction: Alignment.topCenter),
-        transitionDuration: const Duration(milliseconds: 500),
-        holdDuration: const Duration(seconds: 1));
-  }
+Future<R?> showInformation<R extends Object>(String message) {
+  return appToast.show(
+          builder: (context, entry, child) => Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 3, spreadRadius: 4)]),
+            child: const Text("This is toast's message"),
+          ),
+          alignment: const Alignment(0, -0.7),
+          transitionDelegate: const TranslateTransitionDelegate(direction: Alignment.topCenter),
+          transitionDuration: const Duration(milliseconds: 500),
+          holdDuration: const Duration(seconds: 1));
 }
 ```
 
 ...and call:
 
 ```dart
-    appToast.showInformation('Hello World');
+showInformation('Hello World');
 ```
 
 ## ToastTransitionDelegate

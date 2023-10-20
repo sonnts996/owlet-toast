@@ -3,23 +3,19 @@
  Copyright (c) 2023 . All rights reserved.
 */
 
-import 'dart:async';
-
-import 'package:flutter/widgets.dart';
-import 'package:overlay_manager/overlay_manager.dart';
-
-import 'owlet_toast.dart';
+part of owlet_toast;
 
 /// Provides the animation builder to show the toast on UI.
 /// At the same time, the toast has two animations, position translation, and opacity animation.
-class ToastWidget extends StatefulWidget {
+class ToastWidget<T extends Object?> extends StatefulWidget {
   /// The [ToastWidget]'s constructor.
   const ToastWidget({
     super.key,
     required this.holdDuration,
     required this.transitionDuration,
-    required this.child,
+    required this.builder,
     required this.entry,
+    this.child,
     this.alignment = Alignment.bottomCenter,
     required this.transitionDelegate,
   });
@@ -31,10 +27,13 @@ class ToastWidget extends StatefulWidget {
   final Duration holdDuration;
 
   /// The toast's ui widget.
-  final Widget child;
+  final Widget? child;
+
+  /// The toast's ui widget builder.
+  final ToastBuilder builder;
 
   /// The  [OverlayManagerEntry] is to close the toast at the end of the time.
-  final OverlayManagerEntry entry;
+  final OverlayManagerEntry<T> entry;
 
   /// Alignment of [child] on screen.  Bounds inside MediaQuery.viewInsetsOf(context)
   final Alignment alignment;
@@ -79,19 +78,22 @@ class _ToastWidgetState extends State<ToastWidget> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
-        animation: _animation,
+    animation: _animation,
         child: widget.child,
-        builder: (context, child) => Transform.translate(
-          child: Padding(
+        builder: (context, child) => Padding(
             padding: MediaQuery.viewInsetsOf(context),
-            child: Align(
-                alignment: widget.alignment,
-                child: Opacity(
-                  opacity: widget.transitionDelegate.opacity(_controller.status, _controller.value),
-                  child: child!,
-                )),
-          ),
-          offset: widget.transitionDelegate.transition(_controller.status, _controller.value),
-        ),
+            child: Transform.translate(
+              child: Align(
+                  alignment: widget.alignment,
+                  child: Opacity(
+                    opacity: widget.transitionDelegate.opacity(_controller.status, _controller.value),
+                    child: widget.builder(
+                      context,
+                      ToastEntry(widget.entry, status: _controller.status, value: _controller.value),
+                      child,
+                    ),
+                  )),
+              offset: widget.transitionDelegate.transition(_controller.status, _controller.value),
+            )),
       );
 }

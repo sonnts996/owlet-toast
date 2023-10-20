@@ -2,10 +2,7 @@
  Created by Thanh Son on 11/10/2023.
  Copyright (c) 2023 . All rights reserved.
 */
-import 'package:flutter/widgets.dart';
-
-import '../_internal.dart';
-import 'owlet_toast.dart';
+part of owlet_toast;
 
 /// Make the toast transforms transition when appears and dismiss.
 /// The [direction] should be the same as toast alignment. Follow by [direction]:
@@ -51,24 +48,52 @@ class FadeTransitionDelegate with ToastTransitionDelegate {
 }
 
 /// Make the toast shake on appear and fade on dismissed.
+/// The shake value is the result of f(x) = amplitude * e^(-scale * t) * sin(frequency * t * pi)
+/// with the t's speed is controlled by the [curve].
 class ShakeTransitionDelegate with ToastTransitionDelegate {
-  /// In default, the shake's effect is [Curves.bounceOut.
-  const ShakeTransitionDelegate({this.scale = 50, this.shakeCurve = Curves.bounceOut});
+  /// In default, the shake's effect is [Curves.bounceIn].
+  const ShakeTransitionDelegate({
+    this.amplitude = 50,
+    this.curve = Curves.elasticOut,
+    this.frequency = 3,
+    this.dampingCoefficient = 3,
+  });
 
   /// The shake's effect
-  final Curve shakeCurve;
+  final Curve curve;
 
-  /// shake amplitude can be multiplied by [scale].
-  final double scale;
+  /// Shake amplitude.
+  final double amplitude;
+
+  /// Shake frequency
+  final double frequency;
+
+  /// Shake damping coefficient.
+  final double dampingCoefficient;
 
   @override
   Offset transition(AnimationStatus animationStatus, double animationValue) {
     if (animationStatus == AnimationStatus.forward) {
-      final shake = 2 * (0.5 - (0.5 - shakeCurve.transform(animationValue)).abs());
-      return Offset(scale * shake, 0);
+      return dampedOscillation(animationValue);
     }
     return const Offset(0, 0);
   }
+
+  /// The shake value is the result of f(x) = amplitude * e^(-3t) * sin(frequency * t * pi)
+  /// with the t's speed is controlled by the [curve].
+  Offset dampedOscillation(double animationValue) {
+    final shake = amplitude *
+        math.exp(-dampingCoefficient * animationValue) *
+        math.sin(frequency * curve.transform(animationValue).abs() * math.pi);
+    return Offset(shake, 0);
+  }
+
+  /// The shake value is the result of f(x) = amplitude * sin(frequency * t * pi)
+  /// with the t's speed is controlled by the [curve].
+  // Offset harmonicOscillation(double animationValue) {
+  //   final shake = amplitude * math.sin(frequency * curve.transform(animationValue).abs() * math.pi);
+  //   return Offset(shake, 0);
+  // }
 
   @override
   double opacity(AnimationStatus animationStatus, double animationValue) => switch (animationStatus) {
