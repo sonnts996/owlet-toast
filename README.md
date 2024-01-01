@@ -1,5 +1,8 @@
 # Owlet Toast
 
+
+[![version](https://img.shields.io/pub/v/owlet_toast)](https://pub.dev/packages/owlet_toast) [![license](https://img.shields.io/github/license/sonnts996/owlet-toast)](https://pub.dev/packages/owlet_toast/license)
+
 Owlet Toast uses the overlay for show your custom toast via the [OverlayManager](https://pub.dev/packages/overlay_manager).
 
 You can customize your toast's UI and Owlet Toast will make it show on the screen with the animation effect.
@@ -9,7 +12,7 @@ You also customize your animation effect.
 
 ```yaml
 dependencies:
-   owlet_toast: ^0.0.1
+   owlet_toast: ^0.0.2
 ```
 
 # Usage

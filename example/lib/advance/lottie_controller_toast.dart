@@ -9,7 +9,8 @@ import 'package:lottie/lottie.dart';
 import '../app_toast.dart';
 
 class LottieSuccessToast extends StatefulWidget {
-  const LottieSuccessToast({super.key, required this.delay, required this.message});
+  const LottieSuccessToast(
+      {super.key, required this.delay, required this.message});
 
   final Duration delay;
   final String message;
@@ -18,7 +19,8 @@ class LottieSuccessToast extends StatefulWidget {
   State<LottieSuccessToast> createState() => _LottieSuccessToastState();
 }
 
-class _LottieSuccessToastState extends State<LottieSuccessToast> with TickerProviderStateMixin {
+class _LottieSuccessToastState extends State<LottieSuccessToast>
+    with TickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(vsync: this);
 
   @override

@@ -26,15 +26,21 @@ class AppToast {
   Future<R?> showInformation<R extends Object>(String message) {
     return owletToast.show(
         builder: (context, entry, child) => Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 3, spreadRadius: 4)]),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 3,
+                        spreadRadius: 4)
+                  ]),
               child: const Text("This is toast's message"),
             ),
         alignment: const Alignment(0, -0.7),
-        transitionDelegate: const TranslateTransitionDelegate(direction: Alignment.topCenter),
+        transitionDelegate:
+            const TranslateTransitionDelegate(direction: Alignment.topCenter),
         transitionDuration: const Duration(milliseconds: 500),
         holdDuration: const Duration(seconds: 1));
   }
@@ -47,7 +53,8 @@ class AppToast {
               message,
             ),
         alignment: const Alignment(0, -0.7),
-        transitionDelegate: const ShakeTransitionDelegate(curve: Curves.elasticInOut),
+        transitionDelegate:
+            const ShakeTransitionDelegate(curve: Curves.elasticInOut),
         transitionDuration: const Duration(milliseconds: 500),
         holdDuration: const Duration(seconds: 1));
   }
@@ -148,7 +155,11 @@ class AppToast {
 }
 
 class Toasty extends StatelessWidget {
-  const Toasty({super.key, required this.icon, required this.color, required this.message});
+  const Toasty(
+      {super.key,
+      required this.icon,
+      required this.color,
+      required this.message});
 
   final Widget icon;
   final Color color;
@@ -162,7 +173,12 @@ class Toasty extends StatelessWidget {
       decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 3, spreadRadius: 4)]),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 3,
+                spreadRadius: 4)
+          ]),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -179,4 +195,3 @@ class Toasty extends StatelessWidget {
     );
   }
 }
-

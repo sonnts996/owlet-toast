@@ -14,7 +14,8 @@ class AnimatedToast extends StatefulWidget {
   State<AnimatedToast> createState() => _AnimatedToastState();
 }
 
-class _AnimatedToastState extends State<AnimatedToast> with TickerProviderStateMixin {
+class _AnimatedToastState extends State<AnimatedToast>
+    with TickerProviderStateMixin {
   bool shouldShownText = false;
 
   @override
@@ -39,7 +40,12 @@ class _AnimatedToastState extends State<AnimatedToast> with TickerProviderStateM
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 3, spreadRadius: 4)]),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 3,
+                spreadRadius: 4)
+          ]),
       child: AnimatedSize(
         duration: const Duration(milliseconds: 350),
         alignment: Alignment.centerLeft,

@@ -11,8 +11,6 @@ void main() {
   ));
 }
 
-
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.navKey, required this.appToast});
 
@@ -69,8 +67,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -134,7 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(height: 8),
             ElevatedButton(
                 onPressed: () {
-                  widget.appToast.showLottieSuccess('The icon appear after the toast showing!');
+                  widget.appToast.showLottieSuccess(
+                      'The icon appear after the toast showing!');
                 },
                 child: const Text('Lottie Success Toast')),
             const SizedBox(height: 8),
