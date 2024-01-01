@@ -9,7 +9,7 @@ You also customize your animation effect.
 
 ```yaml
 dependencies:
-   owlet_toast: ^0.0.1
+   owlet_toast: ^0.0.2
 ```
 
 # Usage

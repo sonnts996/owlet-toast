@@ -1,6 +1,6 @@
 name: owlet_toast
 description: Owlet Toast is the toast interface provider for the delegate to build your custom toast base on OverlayManager.
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/sonnts996/owlet-toast
 
 environment:
@@ -10,13 +10,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  overlay_manager: ^0.0.2
-  objectx: ^1.0.1
+  overlay_manager: '>=0.0.3 <1.0.0'
+  objectx: '>=1.0.3 <2.0.0'
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  owlet_lints: ^3.0.0
+  owlet_lints: ^4.0.0+1
 
 
 # For information on the generic Dart part of this file, see the

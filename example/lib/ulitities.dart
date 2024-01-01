@@ -5,7 +5,8 @@
 import 'dart:ui';
 
 extension ColorX on Color {
-  Color get textColor => isLight ? const Color(0xFF000000) : const Color(0xFFFFFFFF);
+  Color get textColor =>
+      isLight ? const Color(0xFF000000) : const Color(0xFFFFFFFF);
 
   bool get isLight => computeLuminance() > 0.5;
 }

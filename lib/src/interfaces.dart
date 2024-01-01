@@ -3,7 +3,7 @@
  Copyright (c) 2023 . All rights reserved.
 */
 
-part of owlet_toast;
+part of '../owlet_toast.dart';
 
 /// Build and return the toast's UI widget with updated animation.
 typedef ToastBuilder = Widget Function(
@@ -53,5 +53,6 @@ mixin ToastTransitionDelegate {
   ///
   /// The [animationValue] is in the range [0...1]
   /// The [animationStatus] gives the animation that happens (forward or reverse).
-  double opacity(AnimationStatus animationStatus, double animationValue) => limitIn(0, animationValue, 1);
+  double opacity(AnimationStatus animationStatus, double animationValue) =>
+      animationValue.clamp(0, 1);
 }

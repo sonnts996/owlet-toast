@@ -3,7 +3,7 @@
  Copyright (c) 2023 . All rights reserved.
 */
 
-part of owlet_toast;
+part of '../owlet_toast.dart';
 
 /// Using [OverlayManager] for show and manage the overlay widget as toast.
 ///
@@ -74,7 +74,8 @@ class OwletToast {
   final Alignment defaultAlignment;
 
   /// Returns your toast's widget to display in the application.
-  Widget buildToast(BuildContext context, ToastEntry entry, Widget? child) => child!;
+  Widget buildToast(BuildContext context, ToastEntry entry, Widget? child) =>
+      child!;
 
   /// Call to show your toast. This method can await the result (if your toast has the returned resulting action).
   /// In default, if the toast closes automatically (such as end of the time), the result is returned null.
@@ -94,18 +95,19 @@ class OwletToast {
     Widget? child,
     double elevation = 0,
   }) {
-    assert(child != null || builder != null, 'Toast child or builder must be special!');
+    assert(child != null || builder != null,
+        'Toast child or builder must be special!');
     final completer = Completer<R?>();
 
     overlayManager.show<R?>(
       builder: (context, entry) => ToastWidget<R?>(
         transitionDuration: transitionDuration ?? defaultTransitionDuration,
         holdDuration: holdDuration ?? defaultHoldDuration,
-        child: child,
         builder: builder ?? buildToast,
         entry: entry,
         transitionDelegate: transitionDelegate ?? defaultDelegate,
         alignment: alignment ?? defaultAlignment,
+        child: child,
       ),
       mode: OverlayMode.transparent,
       onDismiss: completer.complete,

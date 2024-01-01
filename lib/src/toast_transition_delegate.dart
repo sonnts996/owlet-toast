@@ -2,7 +2,7 @@
  Created by Thanh Son on 11/10/2023.
  Copyright (c) 2023 . All rights reserved.
 */
-part of owlet_toast;
+part of '../owlet_toast.dart';
 
 /// Make the toast transforms transition when appears and dismiss.
 /// The [direction] should be the same as toast alignment. Follow by [direction]:
@@ -13,10 +13,12 @@ part of owlet_toast;
 class TranslateTransitionDelegate with ToastTransitionDelegate {
   /// The [TranslateTransitionDelegate]'s constructor.
   /// In default, the transition will start at 200 from the original position by the [direction].
-  const TranslateTransitionDelegate({required this.direction, this.destination = 0, this.start = 200});
+  const TranslateTransitionDelegate(
+      {required this.direction, this.destination = 0, this.start = 200});
 
   /// The transform's direction
   final Alignment direction;
+
   /// The finish offset of the transform transition position
   final double destination;
 
@@ -26,15 +28,19 @@ class TranslateTransitionDelegate with ToastTransitionDelegate {
   @override
   Offset transition(AnimationStatus animationStatus, double animationValue) {
     if (direction == Alignment.bottomCenter) {
-      return Offset(0, start * (1 - animationValue) + animationValue * destination);
+      return Offset(
+          0, start * (1 - animationValue) + animationValue * destination);
     } else if (direction == Alignment.topCenter) {
-      return Offset(0, start * (animationValue - 1) + animationValue * destination);
+      return Offset(
+          0, start * (animationValue - 1) + animationValue * destination);
     } else if (direction.x == -1) {
-      return Offset(start * (animationValue - 1) + animationValue * destination, 0);
+      return Offset(
+          start * (animationValue - 1) + animationValue * destination, 0);
     } else if (direction.x == 1) {
-      return Offset(start * (1 - animationValue) + animationValue * destination, 0);
+      return Offset(
+          start * (1 - animationValue) + animationValue * destination, 0);
     }
-    return const Offset(0, 0);
+    return Offset.zero;
   }
 }
 
@@ -44,7 +50,8 @@ class FadeTransitionDelegate with ToastTransitionDelegate {
   const FadeTransitionDelegate();
 
   @override
-  Offset transition(AnimationStatus animationStatus, double animationValue) => const Offset(0, 0);
+  Offset transition(AnimationStatus animationStatus, double animationValue) =>
+      Offset.zero;
 }
 
 /// Make the toast shake on appear and fade on dismissed.
@@ -76,7 +83,7 @@ class ShakeTransitionDelegate with ToastTransitionDelegate {
     if (animationStatus == AnimationStatus.forward) {
       return dampedOscillation(animationValue);
     }
-    return const Offset(0, 0);
+    return Offset.zero;
   }
 
   /// The shake value is the result of f(x) = amplitude * e^(-3t) * sin(frequency * t * pi)
@@ -96,10 +103,11 @@ class ShakeTransitionDelegate with ToastTransitionDelegate {
   // }
 
   @override
-  double opacity(AnimationStatus animationStatus, double animationValue) => switch (animationStatus) {
+  double opacity(AnimationStatus animationStatus, double animationValue) =>
+      switch (animationStatus) {
         AnimationStatus.dismissed => 0,
         AnimationStatus.forward => 1,
-        AnimationStatus.reverse => limitIn(0, animationValue, 1),
+        AnimationStatus.reverse => animationValue.clamp(0, 1),
         AnimationStatus.completed => 1,
       };
 }
